@@ -1,10 +1,3 @@
-package org.wat.zad.implementations;
-
-import org.wat.zad.intefaces.AgentInterface;
-
-import java.awt.*;
-import java.rmi.RemoteException;
-
 public class AgentImplementation implements AgentInterface {
 
     @Override

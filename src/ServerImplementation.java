@@ -1,15 +1,9 @@
-package org.wat.zad.implementations;
-
-import org.wat.zad.intefaces.AgentInterface;
-import org.wat.zad.intefaces.ServerInterface;
-
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ServerImplementation implements ServerInterface {
@@ -58,7 +52,7 @@ public class ServerImplementation implements ServerInterface {
 
         Runnable runnableMulti = () -> {
             int counter = atomicCounter.get();
-            atomicCounter.notify();
+            //sem
             try {
                 switch (counter) {
                     case 0 -> pass1.add(agents.get(0).multiply(matrixA.get(0), matrixB.get(0)));
@@ -71,14 +65,13 @@ public class ServerImplementation implements ServerInterface {
                     case 7 -> pass2.add(agents.get(3).multiply(matrixA.get(3), matrixB.get(3)));
                     default -> throw new IndexOutOfBoundsException(atomicCounter.get());
                 }
-                atomicCounter.notify();
             } catch (Exception e){
                 e.printStackTrace();
             }
         };
         Runnable runnableAdd = () -> {
             int i = atomicCounter.get() - 8;
-            atomicCounter.notify();
+            //sem
             try {
                 matrixC.add(agents.get(i).add(pass1.get(i), pass2.get(i)));
             } catch (RemoteException e) {
@@ -89,8 +82,7 @@ public class ServerImplementation implements ServerInterface {
         for (int i = 0; i < AGENTS_COUNT; i++) { //przejście 1. mnożenia
             threads.add(new Thread(runnableMulti));
             threads.get(threads.size() - 1).start();
-            //Thread.sleep(10);
-            atomicCounter.wait();
+            Thread.sleep(10);
             atomicCounter.set(atomicCounter.get() + 1);
         }
         for (int i = 0; i < AGENTS_COUNT; i++) {
@@ -100,8 +92,7 @@ public class ServerImplementation implements ServerInterface {
         for (int i = 0; i < AGENTS_COUNT; i++) { //przejście 2. mnożenia
             threads.add(new Thread(runnableMulti));
             threads.get(threads.size() - 1).start();
-            //Thread.sleep(10);
-            atomicCounter.wait();
+            Thread.sleep(10);
             atomicCounter.set(atomicCounter.get() + 1);
         }
         for (int i = 0; i < AGENTS_COUNT; i++) {
@@ -111,8 +102,7 @@ public class ServerImplementation implements ServerInterface {
         for (int i = 0; i < AGENTS_COUNT; i++) { //przejście 1. dodawaniania
             threads.add(new Thread(runnableAdd));
             threads.get(threads.size() - 1).start();
-            //Thread.sleep(10);
-            atomicCounter.wait();
+            Thread.sleep(10);
             atomicCounter.set(atomicCounter.get() + 1);
         }
         for (int i = 0; i < AGENTS_COUNT; i++) {

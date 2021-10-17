@@ -1,8 +1,3 @@
-package org.wat.zad;
-
-import org.wat.zad.implementations.ServerImplementation;
-import org.wat.zad.intefaces.ServerInterface;
-
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;

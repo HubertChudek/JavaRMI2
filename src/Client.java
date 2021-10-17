@@ -1,7 +1,3 @@
-package org.wat.zad;
-
-import org.wat.zad.intefaces.ServerInterface;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,7 +5,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
 public class Client {
     private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

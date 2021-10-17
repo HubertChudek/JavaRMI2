@@ -1,5 +1,3 @@
-package org.wat.zad.intefaces;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
