@@ -16,6 +16,7 @@ public class Server extends ServerImplementation {
 
             // Binding the remote object (stub) in the registry
             Registry registry = LocateRegistry.getRegistry();
+            registry.unbind("Server");
             registry.bind("Server", stub);
 
             System.out.println("Server ready.");
