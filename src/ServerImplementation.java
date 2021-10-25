@@ -30,8 +30,7 @@ public class ServerImplementation implements ServerInterface {
                 e.printStackTrace();
                 return matrixA;
             }
-        }
-        else return computeSync(matrixA, matrixB);
+        } else return computeSync(matrixA, matrixB);
     }
 
     private void lookupAgents() throws RemoteException, NotBoundException {
@@ -65,7 +64,7 @@ public class ServerImplementation implements ServerInterface {
                     case 7 -> pass2.add(agents.get(3).multiply(matrixA.get(3), matrixB.get(3)));
                     default -> throw new IndexOutOfBoundsException(atomicCounter.get());
                 }
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         };
@@ -86,7 +85,7 @@ public class ServerImplementation implements ServerInterface {
             atomicCounter.set(atomicCounter.get() + 1);
         }
         for (int i = 0; i < AGENTS_COUNT; i++) {
-            threads.get(threads.size() - 1).join();
+            threads.get(i).join();
         }
 
         for (int i = 0; i < AGENTS_COUNT; i++) { //przejście 2. mnożenia
@@ -96,7 +95,7 @@ public class ServerImplementation implements ServerInterface {
             atomicCounter.set(atomicCounter.get() + 1);
         }
         for (int i = 0; i < AGENTS_COUNT; i++) {
-            threads.get(threads.size() - 1).join();
+            threads.get(i + 4).join();
         }
 
         for (int i = 0; i < AGENTS_COUNT; i++) { //przejście 1. dodawaniania
@@ -106,7 +105,7 @@ public class ServerImplementation implements ServerInterface {
             atomicCounter.set(atomicCounter.get() + 1);
         }
         for (int i = 0; i < AGENTS_COUNT; i++) {
-            threads.get(threads.size() - 1).join();
+            threads.get(i + 8).join();
         }
 
         return matrixC;
